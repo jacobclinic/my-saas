@@ -272,10 +272,6 @@ export interface Database {
         }
         Returns: number
       }
-      install_extensions: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
       transfer_organization: {
         Args: {
           org_id: number
