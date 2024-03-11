@@ -6,6 +6,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+
 import { RedirectType } from 'next/dist/client/components/redirect';
 
 import getLogger from '~/core/logger';
@@ -26,7 +27,6 @@ import configuration from '~/configuration';
 import createBillingPortalSession from '~/lib/stripe/create-billing-portal-session';
 import { withSession } from '~/core/generic/actions-utils';
 import getSupabaseServerActionClient from '~/core/supabase/action-client';
-import { revalidatePath } from 'next/cache';
 
 export const createCheckoutAction = withSession(
   async (_, formData: FormData) => {
@@ -159,11 +159,6 @@ export const createCheckoutAction = withSession(
 
       return redirectToErrorPage();
     }
-
-    revalidatePath(
-      `/${configuration.paths.appPrefix}/[organization]`,
-      'layout',
-    );
 
     // redirect user back based on the response
     return redirect(session.url, RedirectType.replace);
