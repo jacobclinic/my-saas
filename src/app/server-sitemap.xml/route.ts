@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { getServerSideSitemap } from 'next-sitemap';
 import { allPosts, allDocumentationPages } from 'contentlayer/generated';
 import configuration from '~/configuration';
@@ -22,7 +21,7 @@ function getSiteUrls() {
 
   return urls.map((url) => {
     return {
-      loc: join(siteUrl, url),
+      loc: new URL(url, siteUrl).href,
       lastmod: new Date().toISOString(),
     };
   });
@@ -31,7 +30,7 @@ function getSiteUrls() {
 function getPostsSitemap() {
   return allPosts.map((post) => {
     return {
-      loc: join(siteUrl, post.url),
+      loc: new URL(post.url, siteUrl).href,
       lastmod: new Date().toISOString(),
     };
   });
@@ -40,7 +39,7 @@ function getPostsSitemap() {
 function getDocsSitemap() {
   return allDocumentationPages.map((page) => {
     return {
-      loc: join(siteUrl, page.url),
+      loc: new URL(page.url, siteUrl).href,
       lastmod: new Date().toISOString(),
     };
   });
