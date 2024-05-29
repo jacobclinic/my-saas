@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { User } from '@supabase/gotrue-js';
+import type { User } from '@supabase/supabase-js';
 import type { Database } from '~/database.types';
 
 import { MEMBERSHIPS_TABLE, ORGANIZATIONS_TABLE } from '~/lib/db-tables';
@@ -132,9 +132,10 @@ export function getOrganizationMembers(client: Client, organizationId: number) {
 export function getOrganizationByUid(client: Client, uid: string) {
   return client
     .from(ORGANIZATIONS_TABLE)
-    .select<string, UserOrganizationData['organization']>(
-      FETCH_ORGANIZATION_QUERY,
-    )
+    .select<
+      string,
+      UserOrganizationData['organization']
+    >(FETCH_ORGANIZATION_QUERY)
     .eq('uuid', uid)
     .throwOnError()
     .maybeSingle();
@@ -148,9 +149,10 @@ export function getOrganizationByUid(client: Client, uid: string) {
 export function getOrganizationById(client: Client, organizationId: number) {
   return client
     .from(ORGANIZATIONS_TABLE)
-    .select<string, UserOrganizationData['organization']>(
-      FETCH_ORGANIZATION_QUERY,
-    )
+    .select<
+      string,
+      UserOrganizationData['organization']
+    >(FETCH_ORGANIZATION_QUERY)
     .eq('id', organizationId)
     .throwOnError()
     .single();

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
-import type { User } from '@supabase/gotrue-js';
+import type { User } from '@supabase/supabase-js';
 
 import Modal from '~/core/ui/Modal';
 import Button from '~/core/ui/Button';

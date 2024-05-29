@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 import { useState } from 'react';
-import type { User } from '@supabase/gotrue-js';
+import type { User } from '@supabase/supabase-js';
 
 import { banUser } from '~/app/admin/users/@modal/[uid]/actions.server';
 
