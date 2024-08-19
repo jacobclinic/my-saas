@@ -67,7 +67,6 @@ const OrganizationScopeLayout: React.FCC<{
           <CsrfTokenContext.Provider value={data.csrfToken}>
             <I18nProvider lang={data.language}>
               <AuthChangeListener
-                accessToken={data.auth.accessToken}
                 whenSignedOut={'/'}
               >
                 <main>

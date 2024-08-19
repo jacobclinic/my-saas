@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useTransition } from 'react';
-import type { Session } from '@supabase/supabase-js';
 
 import Trans from '~/core/ui/Trans';
 import Button from '~/core/ui/Button';
@@ -12,7 +11,7 @@ import { acceptInviteAction } from '~/lib/memberships/actions';
 
 function ExistingUserInviteForm(
   props: React.PropsWithChildren<{
-    session: Session;
+    email: string;
     code: string;
   }>,
 ) {
@@ -39,7 +38,7 @@ function ExistingUserInviteForm(
         <p className={'text-center text-sm'}>
           <Trans
             i18nKey={'auth:clickToAcceptAs'}
-            values={{ email: props.session?.user.email }}
+            values={{ email: props.email }}
             components={{ b: <b /> }}
           />
         </p>

@@ -59,7 +59,7 @@ async function InvitePage({ params }: Context) {
         </p>
 
         <p className={'text-center'}>
-          <If condition={!data.session}>
+          <If condition={!data.email}>
             <Trans i18nKey={'auth:signUpToAcceptInvite'} />
           </If>
         </p>
@@ -67,11 +67,11 @@ async function InvitePage({ params }: Context) {
 
       <InviteCsrfTokenProvider csrfToken={data.csrfToken}>
         <If
-          condition={data.session}
+          condition={data.email}
           fallback={<NewUserInviteForm code={code} />}
         >
-          {(session) => (
-            <ExistingUserInviteForm code={code} session={session} />
+          {(email) => (
+            <ExistingUserInviteForm code={code} email={email} />
           )}
         </If>
       </InviteCsrfTokenProvider>
@@ -104,13 +104,16 @@ async function loadInviteData(code: string) {
     notFound();
   }
 
-  const { data: userSession } = await client.auth.getSession();
-  const session = userSession?.session;
+  const { data: {
+    user
+  } } = await client.auth.getUser();
+
+  const email = user?.email ?? '';
   const csrfToken = headers().get('x-csrf-token');
 
   return {
     csrfToken,
-    session,
+    email,
     membership,
     code,
   };

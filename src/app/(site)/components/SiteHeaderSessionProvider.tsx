@@ -20,7 +20,7 @@ function SiteHeaderSessionProvider(
 
   return (
     <UserSessionContext.Provider value={{ userSession, setUserSession }}>
-      <AuthChangeListener accessToken={props.data?.auth?.accessToken}>
+      <AuthChangeListener>
         <SiteHeader />
       </AuthChangeListener>
     </UserSessionContext.Provider>

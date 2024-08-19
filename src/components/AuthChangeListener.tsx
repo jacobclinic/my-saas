@@ -9,8 +9,7 @@ import UserSessionContext from '~/core/session/contexts/user-session';
 
 const AuthRedirectListener: React.FCC<{
   whenSignedOut?: string;
-  accessToken: Maybe<string>;
-}> = ({ children, whenSignedOut, accessToken }) => {
+}> = ({ children, whenSignedOut }) => {
   const client = useSupabase();
   const router = useRouter();
   const redirectUserAway = useRedirectUserAway();
@@ -19,7 +18,7 @@ const AuthRedirectListener: React.FCC<{
   useEffect(() => {
     // keep this running for the whole session
     // unless the component was unmounted, for example, on log-outs
-    const listener = client.auth.onAuthStateChange((state, user) => {
+    const listener = client.auth.onAuthStateChange((_, user) => {
       // log user out if user is falsy
       // and if the consumer provided a route to redirect the user
       const shouldLogOut = !user && whenSignedOut;
@@ -28,16 +27,10 @@ const AuthRedirectListener: React.FCC<{
         return redirectUserAway(whenSignedOut);
       }
 
-      const isOutOfSync = user?.access_token !== accessToken;
-
       // server and client are out of sync.
       // We need to recall active loaders after actions complete
-      if (isOutOfSync) {
-        void router.refresh();
-      } else {
-        if (!user) {
-          setUserSession(undefined);
-        }
+      if (!user) {
+        setUserSession(undefined);
       }
     });
 
@@ -47,7 +40,6 @@ const AuthRedirectListener: React.FCC<{
     client.auth,
     redirectUserAway,
     router,
-    accessToken,
     whenSignedOut,
     setUserSession,
   ]);
@@ -58,10 +50,8 @@ const AuthRedirectListener: React.FCC<{
 export default function AuthChangeListener({
   children,
   whenSignedOut,
-  accessToken,
 }: React.PropsWithChildren<{
   whenSignedOut?: string;
-  accessToken: Maybe<string>;
 }>) {
   const shouldActivateListener = isBrowser();
 
@@ -73,7 +63,6 @@ export default function AuthChangeListener({
 
   return (
     <AuthRedirectListener
-      accessToken={accessToken}
       whenSignedOut={whenSignedOut}
     >
       {children}

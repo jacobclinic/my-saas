@@ -148,9 +148,9 @@ class UserSdk {
    * Retrieves the current user ID from the session.
    */
   public async getCurrentId() {
-    const response = await this.getCurrentSession();
+    const response = await this.getCurrent();
 
-    return response.data.session?.user.id;
+    return response.data.user?.id;
   }
 
   /**

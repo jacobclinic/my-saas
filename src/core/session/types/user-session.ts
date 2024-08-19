@@ -7,8 +7,6 @@ import type MembershipRole from '~/lib/organizations/types/membership-role';
  */
 interface UserSession {
   auth: {
-    accessToken: Maybe<string>;
-
     user: {
       id: string;
       email: Maybe<string>;
